@@ -90,6 +90,45 @@
     render();
     op.addEventListener('click', function () { finishOpening(true); });
     introTimer = setTimeout(function () { finishOpening(false); }, 3400);
+    vectorZoom();
+  }
+
+  /* ---- Opening zoom: animate the SVG viewBox instead of CSS scale(70),
+     so the mark is re-drawn as vector every frame and stays sharp on high-DPI phones ---- */
+  function vectorZoom() {
+    var svg = op.querySelector('.op-mark svg');
+    if (!svg || !window.requestAnimationFrame) return;
+    var MARK = isSP ? 88 : 120, OX = 4, OY = 52, MAXS = 70;
+    var DELAY = 1850, DUR = 1100;
+    // cubic-bezier(.7,0,.2,1), same easing as the CSS opZoom
+    function bez(t) {
+      var x1 = .7, y1 = 0, x2 = .2, y2 = 1, u = t;
+      for (var i = 0; i < 8; i++) {
+        var x = 3 * (1 - u) * (1 - u) * u * x1 + 3 * (1 - u) * u * u * x2 + u * u * u - t;
+        var dx = 3 * (1 - u) * (1 - u) * x1 + 6 * (1 - u) * u * (x2 - x1) + 3 * u * u * (1 - x2);
+        if (Math.abs(x) < 1e-5 || !dx) break;
+        u = Math.min(1, Math.max(0, u - x / dx));
+      }
+      return 3 * (1 - u) * (1 - u) * u * y1 + 3 * (1 - u) * u * u * y2 + u * u * u;
+    }
+    function frame(s) {
+      var vw = op.clientWidth || window.innerWidth, vh = op.clientHeight || window.innerHeight;
+      var w = vw * 100 / MARK, h = vh * 100 / MARK;
+      var x = 50 - w / 2, y = 50 - h / 2;
+      svg.setAttribute('viewBox', [OX - (OX - x) / s, OY - (OY - y) / s, w / s, h / s].join(' '));
+    }
+    op.classList.add('vz');
+    frame(1);
+    // follow the CSS opOut clock when available so the zoom stays in sync with the fade
+    var t0 = performance.now();
+    var anim = op.getAnimations && op.getAnimations()[0];
+    (function tick(now) {
+      if (op.classList.contains('done')) return;
+      var t = anim && typeof anim.currentTime === 'number' ? anim.currentTime : now - t0;
+      var p = Math.min(1, Math.max(0, (t - DELAY) / DUR));
+      frame(1 + (MAXS - 1) * bez(p));
+      if (p < 1) requestAnimationFrame(tick);
+    })(performance.now());
   }
 
   /* ---- News slider ---- */
