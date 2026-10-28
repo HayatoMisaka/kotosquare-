@@ -1,0 +1,440 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<title>Koto Square TOP PC</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500&amp;family=Noto+Sans+JP:wght@400;500;700&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#ffffff}
+a{color:#111114;text-decoration:none}
+a:hover{color:#111114}
+
+/* ---------- Tokens ---------- */
+.ks{--ink:#111114;--text:#3E3F48;--sub:#686973;--line:#E3E4EA;--ghost:#E9EAEE;--bg2:#F5F6F8;--ease:cubic-bezier(.16,1,.3,1);--fast:.25s;--base:.5s;--slow:.9s;--w:1200px;--wide:1360px}
+.en{font-family:'Jost',sans-serif}
+.wrap{max-width:var(--w);margin:0 auto;padding:0 48px;box-sizing:content-box}
+.wrap-wide{max-width:var(--wide);margin:0 auto;padding:0 40px}
+
+/* ---------- Section head: label + title ---------- */
+.lbl{margin:0;display:flex;align-items:center;gap:12px;font-family:'Jost',sans-serif;font-size:13px;font-weight:500;letter-spacing:.24em;color:var(--sub)}
+.lbl b{font-weight:500;color:var(--ink)}
+.lbl::before{content:"";width:8px;height:8px;background:var(--accent)}
+.h2{margin:0;font-size:40px;line-height:1.45;font-weight:700;letter-spacing:.02em}
+.lead{margin:0;color:var(--text);font-size:16px;line-height:1.9}
+
+/* ---------- Buttons: sweep follows the K stroke angle (31.5deg) ---------- */
+.btn{position:relative;display:inline-flex;align-items:center;justify-content:space-between;gap:20px;height:64px;padding:0 32px;box-sizing:border-box;font-weight:700;font-size:16px;letter-spacing:.06em;overflow:hidden;isolation:isolate;transition:color var(--base) var(--ease),border-color var(--base) var(--ease)}
+.btn::before{content:"";position:absolute;top:0;bottom:0;left:-40%;width:180%;z-index:-1;background:var(--ink);transform:translateX(-101%) skewX(-58.5deg);transition:transform .6s var(--ease)}
+.btn:hover::before,.btn:focus-visible::before{transform:translateX(0) skewX(-58.5deg)}
+.btn:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+.btn-p{background:var(--accent);color:#ffffff}
+.btn-p:hover{color:#ffffff}
+.btn-o{border:1px solid var(--ink);color:var(--ink);background:#ffffff}
+.btn-o:hover{color:#ffffff}
+.btn-w{border:1px solid rgba(255,255,255,.7);color:#ffffff;background:#111114}
+.btn-w::before{background:#ffffff}
+.btn-w:hover{color:#111114}
+.btn-s{height:48px;padding:0 24px;font-size:14px}
+.arr{font-family:'Jost',sans-serif;font-weight:400;transition:transform var(--base) var(--ease)}
+.btn:hover .arr,.more:hover .arr{transform:translateX(4px)}
+.more{display:inline-flex;align-items:center;gap:12px;font-weight:700;font-size:15px;padding-bottom:6px;border-bottom:1px solid var(--ink)}
+
+/* ---------- Header ---------- */
+.hd{position:sticky;top:0;z-index:20;background:rgba(255,255,255,.94);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+.nav a.ul{position:relative;padding:6px 0}
+.nav a.ul::after{content:"";position:absolute;left:0;bottom:0;width:100%;height:1px;background:var(--ink);transform:scaleX(0);transform-origin:right;transition:transform var(--base) var(--ease)}
+.nav a.ul:hover::after{transform:scaleX(1);transform-origin:left}
+
+/* ---------- Logo mark (SVG, measured from the official logo) ---------- */
+.pc{transition:transform var(--slow) var(--ease),fill .6s var(--ease)}
+.sq{transform-box:fill-box;transform-origin:center;transition:transform .7s var(--ease),opacity .5s var(--ease)}
+.cap{transition:opacity .6s var(--ease),transform .8s var(--ease)}
+.tab{position:relative;display:flex;flex-direction:column;align-items:flex-start;gap:10px;padding:0;border:0;background:none;cursor:pointer;font:inherit;color:inherit;text-align:left;min-height:44px}
+.tab:focus-visible,.ctl:focus-visible{outline:2px solid var(--accent);outline-offset:4px}
+.tbar{display:block;width:100%;height:2px;background:var(--line);position:relative;overflow:hidden}
+.tbar i{position:absolute;left:0;top:0;bottom:0;background:var(--ink);width:0}
+.tbar i.full{width:100%}
+.tbar i.run{animation:fill 3.4s linear forwards}
+@keyframes fill{from{width:0}to{width:100%}}
+.ctl{width:44px;height:44px;border:1px solid var(--line);background:#ffffff;display:inline-flex;align-items:center;justify-content:center;cursor:pointer;color:var(--ink);transition:border-color var(--fast) ease}
+.ctl:hover{border-color:var(--ink)}
+
+/* ---------- Cards ---------- */
+.card{transition:border-color var(--base) var(--ease),transform var(--base) var(--ease),box-shadow var(--base) var(--ease)}
+.card:hover{border-color:var(--ink);transform:translateY(-4px);box-shadow:0 20px 40px rgba(17,17,20,.06)}
+.card .ab{transition:background var(--base) var(--ease),border-color var(--base) var(--ease),color var(--base) var(--ease)}
+.card:hover .ab{background:var(--accent);border-color:var(--accent);color:#ffffff}
+.card .go{transition:gap var(--base) var(--ease)}
+.card:hover .go{gap:16px}
+.ph{background:var(--bg2);position:relative;overflow:hidden}
+.ph .im{transition:transform 1s var(--ease)}
+.card:hover .ph .im{transform:scale(1.04)}
+.row{transition:background var(--fast) ease}
+.row:hover{background:#ffffff}
+
+@media (prefers-reduced-motion: reduce){
+*,*::before,*::after{animation:none !important;transition:none !important}
+}
+
+/* ---------- Narrow widths ---------- */
+@media (max-width: 1080px){
+.hero{grid-template-columns:minmax(0,1fr) !important}
+.g3{grid-template-columns:minmax(0,1fr) !important}
+.g2{grid-template-columns:minmax(0,1fr) !important}
+.side{grid-template-columns:minmax(0,1fr) !important;gap:40px !important}
+.nav .ul{display:none}
+.kv{max-width:560px}
+.h1{font-size:60px !important}
+}
+</style>
+</helmet>
+<div class="ks" style="--accent: {{accent}}; position: relative; width: 100%; background: #ffffff; color: #111114; font-family: 'Noto Sans JP', sans-serif; font-size: 16px; line-height: 1.8; letter-spacing: 0.04em;">
+
+<header class="hd">
+<div class="wrap-wide" style="height: 84px; display: flex; align-items: center; justify-content: space-between; gap: 32px;">
+<a href="#top" aria-label="Koto Square トップへ" style="display: flex; align-items: center;"><img src="/_blob/5220061920e1c18b73f6b2ece7be7ba5" alt="Koto Square" style="height: 22px; width: auto; display: block;"></a>
+<nav class="nav" aria-label="グローバルナビゲーション" style="display: flex; align-items: center; gap: 32px; font-size: 14px; font-weight: 500;">
+<a class="ul" href="#strength">強み</a>
+<a class="ul" href="#name">社名の想い</a>
+<a class="ul" href="#service">事業内容</a>
+<a class="ul" href="#works">実績</a>
+<a class="ul" href="#news">お知らせ</a>
+<a class="ul" href="#company">会社概要</a>
+<a class="btn btn-p btn-s" href="#contact" style="margin-left: 8px;">お問い合わせ<span class="arr" aria-hidden="true">→</span></a>
+</nav>
+</div>
+</header>
+
+<section id="top" class="wrap-wide hero" style="padding-top: 96px; padding-bottom: 112px; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 560px); gap: 64px; align-items: center;">
+<div style="display: flex; flex-direction: column; gap: 32px;">
+<p class="lbl"><b>TRUE</b><span aria-hidden="true">→</span><b>CONSTANT</b><span aria-hidden="true">→</span><b>KOTO²</b></p>
+<h1 class="h1" style="margin: 0; font-size: 80px; line-height: 1.28; font-weight: 700; letter-spacing: 0.02em;">正しいことを、<br>何度でも<span class="en" style="color: {{accent}}; font-size: 0.5em; font-weight: 500; vertical-align: 0.9em; margin-left: 0.04em;">2</span>。</h1>
+<p class="lead">WEBサイトの制作・運用から、WEBマーケティング支援、<br>動画広告、商品開発まで。<br>Koto Squareは、正しいと信じた方法を、<br>クライアントのために何度でも提案・実行し続けます。</p>
+<div style="display: flex; gap: 16px; flex-wrap: wrap; margin-top: 8px;">
+<a class="btn btn-p" href="#contact" style="min-width: 248px;">無料で相談する<span class="arr" aria-hidden="true">→</span></a>
+<a class="btn btn-o" href="#contact" style="min-width: 288px;">会社資料をダウンロード<span class="arr" aria-hidden="true">↓</span></a>
+</div>
+</div>
+
+<div class="kv" role="group" aria-label="ロゴに込めた3つの考え方" onMouseEnter="{{hoverOn}}" onMouseLeave="{{hoverOff}}" onFocus="{{hoverOn}}" onBlur="{{hoverOff}}" style="display: flex; flex-direction: column; gap: 32px;">
+<svg viewBox="0 -22 122 122" role="img" aria-label="Koto Squareのロゴマーク。3つのピースと2本の白い斜線でKを表し、右上の青い正方形が2乗を表す" style="width: 100%; height: auto; display: block; overflow: visible;">
+<polygon class="pc" points="0,0 71.7,0 0,44" style="fill: {{pA.fill}}; transform: {{pA.tf}};"></polygon>
+<polygon class="pc" points="33.2,43.1 100,0 100,100 98.9,100" style="fill: {{pB.fill}}; transform: {{pB.tf}};"></polygon>
+<polygon class="pc" points="0,61.2 16.4,51.4 71.8,100 0,100" style="fill: {{pC.fill}}; transform: {{pC.tf}};"></polygon>
+<rect class="sq" x="106" y="-20" width="14" height="14" style="fill: {{accent}}; opacity: {{sq.op}}; transform: {{sq.tf}};"></rect>
+</svg>
+<div style="display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 24px; align-items: end;">
+<div aria-live="polite" style="position: relative; height: 64px;">
+<sc-for list="{{caps}}" as="c" hint-placeholder-count="3">
+<div class="cap" aria-hidden="{{c.hidden}}" style="position: absolute; left: 0; top: 0; opacity: {{c.op}}; transform: {{c.tf}}; display: flex; align-items: baseline; gap: 16px; white-space: nowrap;">
+<span class="en" style="font-size: 13px; letter-spacing: 0.2em; color: #686973;">{{c.no}}</span>
+<span class="en" style="font-size: 32px; font-weight: 300; letter-spacing: 0.04em;">{{c.word}}<span style="color: {{accent}};">{{c.sup}}</span></span>
+<span style="font-size: 15px; color: #3E3F48;">{{c.jp}}</span>
+</div>
+</sc-for>
+</div>
+<button type="button" class="ctl" aria-label="{{ctlLabel}}" onClick="{{toggle}}">
+<sc-if value="{{playing}}" hint-placeholder-val="{{ true }}"><svg viewBox="0 0 16 16" aria-hidden="true" style="width: 14px; height: 14px;"><rect x="3" y="2" width="3" height="12" style="fill: #111114;"></rect><rect x="10" y="2" width="3" height="12" style="fill: #111114;"></rect></svg></sc-if>
+<sc-if value="{{notPlaying}}" hint-placeholder-val="{{ false }}"><svg viewBox="0 0 16 16" aria-hidden="true" style="width: 14px; height: 14px;"><polygon points="4,2 14,8 4,14" style="fill: #111114;"></polygon></svg></sc-if>
+</button>
+</div>
+<div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px;">
+<sc-for list="{{caps}}" as="c" hint-placeholder-count="3">
+<button type="button" class="tab" aria-label="{{c.aria}}" aria-pressed="{{c.pressed}}" onClick="{{c.go}}">
+<span class="tbar"><i class="{{c.bar}}" style="animation-play-state: {{c.runState}};"></i></span>
+<span class="en" style="font-size: 12px; letter-spacing: 0.2em; color: {{c.tabC}};">{{c.word}}{{c.sup}}</span>
+</button>
+</sc-for>
+</div>
+</div>
+</section>
+
+<section id="strength" style="background: #F5F6F8; padding: 128px 0;">
+<div class="wrap" style="display: flex; flex-direction: column; gap: 64px;">
+<div class="side" style="display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 440px); gap: 64px; align-items: end;">
+<div style="display: flex; flex-direction: column; gap: 20px;">
+<p class="lbl"><b>01</b>STRENGTH</p>
+<h2 class="h2">3つのピースがそろって、<br>Koto Squareになる。</h2>
+</div>
+<p class="lead">ロゴの3つのピースは、<br>私たちが大切にしている3つの考え方です。<br>ひとつ欠けても、Kの形にはなりません。</p>
+</div>
+<div class="g3" style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px;">
+<sc-for list="{{points}}" as="p" hint-placeholder-count="3">
+<article class="card" style="background: #ffffff; border: 1px solid #E3E4EA; padding: 48px 40px 52px; display: flex; flex-direction: column; gap: 20px;">
+<div style="display: flex; justify-content: space-between; align-items: flex-start;">
+<p class="en" style="margin: 0; font-size: 64px; font-weight: 300; line-height: 1;">{{p.no}}</p>
+<svg viewBox="0 -22 122 122" aria-hidden="true" style="width: 66px; height: auto; overflow: visible;">
+<polygon points="0,0 71.7,0 0,44" style="fill: {{p.a}};"></polygon>
+<polygon points="33.2,43.1 100,0 100,100 98.9,100" style="fill: {{p.b}};"></polygon>
+<polygon points="0,61.2 16.4,51.4 71.8,100 0,100" style="fill: {{p.c}};"></polygon>
+<rect x="106" y="-20" width="14" height="14" style="fill: {{accent}}; opacity: {{p.sq}};"></rect>
+</svg>
+</div>
+<p class="en" style="margin: 8px 0 0; font-size: 14px; font-weight: 500; letter-spacing: 0.2em; color: {{accent}};">{{p.key}}</p>
+<h3 style="margin: 0; font-size: 22px; line-height: 1.6; font-weight: 700; white-space: pre-line;">{{p.title}}</h3>
+<p style="margin: 0; font-size: 15px; line-height: 1.9; color: #3E3F48;">{{p.body}}</p>
+</article>
+</sc-for>
+</div>
+</div>
+</section>
+
+<section id="name" style="background: #111114; color: #ffffff; padding: 136px 0;">
+<div class="wrap side" style="display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 96px; align-items: center;">
+<div style="display: flex; flex-direction: column; gap: 28px;">
+<p class="lbl" style="color: #A9AAB4;"><b style="color: #ffffff;">02</b>OUR NAME</p>
+<h2 class="h2">社名に込めた想い</h2>
+<p style="margin: 0; font-size: 16px; line-height: 2; color: #C9CAD3;">「正しいと信じた方法（true）を、何度でも（Constant）クライアントのために提案・実行し続けることで物事はうまく行く」という信念を込めて命名しました。</p>
+<p style="margin: 0; font-size: 16px; line-height: 2; color: #C9CAD3;">Constantの「コ」× trueの「ト」を繰り返しやり続ける＝「コトの2乗（Koto Square）」です。</p>
+</div>
+<div style="display: flex; flex-direction: column; gap: 28px; padding: 56px; border: 1px solid #2E2F37;">
+<div style="display: flex; align-items: baseline; gap: 20px; flex-wrap: wrap;">
+<p class="en" style="margin: 0; font-size: 48px; font-weight: 300; line-height: 1.2;"><span style="color: {{accent}}; font-weight: 500;">Co</span><span style="color: #8A8B95;">nstant</span></p>
+<p class="en" style="margin: 0; font-size: 28px; font-weight: 300; color: #8A8B95;">×</p>
+<p class="en" style="margin: 0; font-size: 48px; font-weight: 300; line-height: 1.2;"><span style="color: {{accent}}; font-weight: 500;">t</span><span style="color: #8A8B95;">rue</span></p>
+</div>
+<div style="height: 1px; background: #3A3B44;"></div>
+<p class="en" style="margin: 0; font-size: 96px; font-weight: 300; line-height: 1; letter-spacing: 0.01em;">Koto<span style="color: {{accent}}; font-size: 0.5em; vertical-align: 0.9em; margin-left: 0.04em;">2</span></p>
+<p style="margin: 0; font-size: 14px; color: #A9AAB4;">コ × ト を、繰り返しやり続ける。</p>
+</div>
+</div>
+</section>
+
+<section id="service" style="padding: 136px 0 120px;">
+<div class="wrap" style="display: flex; flex-direction: column; gap: 64px;">
+<div class="side" style="display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 440px); gap: 64px; align-items: end;">
+<div style="display: flex; flex-direction: column; gap: 20px;">
+<p class="lbl"><b>03</b>SERVICE</p>
+<h2 class="h2">事業内容</h2>
+</div>
+<p class="lead">4つの領域で、クライアントの課題に向き合います。<br>気になる領域から、そのままご相談いただけます。</p>
+</div>
+<div class="g2" style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px;">
+<sc-for list="{{services}}" as="s" hint-placeholder-count="4">
+<a class="card" href="#contact" style="border: 1px solid #E3E4EA; padding: 44px 44px 40px; display: flex; flex-direction: column; gap: 16px; color: #111114; background: #ffffff;">
+<div style="display: flex; justify-content: space-between; align-items: center; gap: 16px;">
+<p class="en" style="margin: 0; font-size: 13px; letter-spacing: 0.2em; color: #686973;">{{s.no}} — {{s.en}}</p>
+<span class="ab en" aria-hidden="true" style="width: 48px; height: 48px; flex: 0 0 auto; border: 1px solid #111114; display: inline-flex; align-items: center; justify-content: center;">→</span>
+</div>
+<h3 style="margin: 0; font-size: 26px; line-height: 1.5; font-weight: 700;">{{s.title}}</h3>
+<p style="margin: 0; font-size: 15px; line-height: 1.9; color: #3E3F48;">{{s.body}}</p>
+<p class="go" style="margin: 12px 0 0; display: flex; align-items: center; gap: 10px; font-size: 14px; font-weight: 700;">この領域について相談する<span class="en" aria-hidden="true">→</span></p>
+</a>
+</sc-for>
+</div>
+<div style="display: flex; justify-content: space-between; align-items: center; gap: 32px; flex-wrap: wrap; padding: 40px 48px; border: 1px solid #111114;">
+<p style="margin: 0; font-size: 18px; font-weight: 700; line-height: 1.7;">どの領域に当てはまるか分からなくても大丈夫です。<br><span style="font-weight: 400; font-size: 15px; color: #3E3F48;">まずは現状のお困りごとをお聞かせください。</span></p>
+<a class="btn btn-p" href="#contact" style="min-width: 248px;">無料で相談する<span class="arr" aria-hidden="true">→</span></a>
+</div>
+</div>
+</section>
+
+<section id="works" style="padding: 0 0 128px;">
+<div class="wrap" style="display: flex; flex-direction: column; gap: 56px;">
+<div style="display: flex; justify-content: space-between; align-items: flex-end; gap: 32px; flex-wrap: wrap;">
+<div style="display: flex; flex-direction: column; gap: 20px;">
+<p class="lbl"><b>04</b>WORKS</p>
+<h2 class="h2">制作実績</h2>
+</div>
+<a class="more" href="#works">実績一覧を見る<span class="arr" aria-hidden="true">→</span></a>
+</div>
+<div class="g3" style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px;">
+<sc-for list="{{works}}" as="w" hint-placeholder-count="3">
+<a class="card" href="#works" style="border: 1px solid #E3E4EA; display: flex; flex-direction: column; color: #111114; background: #ffffff;">
+<div class="ph" style="aspect-ratio: 16 / 10;">
+<div class="im" aria-hidden="true" style="position: absolute; inset: 0;">
+<svg viewBox="0 0 160 100" preserveAspectRatio="xMidYMid slice" style="width: 100%; height: 100%; display: block;">
+<polygon points="0,0 114,0 0,70" style="fill: #E9EAEE; opacity: {{w.a}};"></polygon>
+<polygon points="53,43 160,0 160,100 158,100" style="fill: #E9EAEE; opacity: {{w.b}};"></polygon>
+<polygon points="0,61 26,51 115,100 0,100" style="fill: #E9EAEE; opacity: {{w.c}};"></polygon>
+</svg>
+</div>
+<span class="en" style="position: absolute; left: 20px; top: 16px; font-size: 11px; letter-spacing: 0.2em; color: #686973;">IMAGE</span>
+</div>
+<div style="padding: 24px 28px 30px; display: flex; flex-direction: column; gap: 10px;">
+<div style="display: flex; justify-content: space-between; align-items: center;"><span style="font-size: 12px; border: 1px solid #111114; padding: 1px 10px;">{{w.cat}}</span><span class="en" style="font-size: 12px; color: #686973;">{{w.no}}</span></div>
+<span style="font-size: 18px; font-weight: 700; line-height: 1.6;">実績タイトルが入ります</span>
+<span style="font-size: 13px; color: #686973;">クライアント名が入ります</span>
+</div>
+</a>
+</sc-for>
+</div>
+</div>
+</section>
+
+<section id="news" style="background: #F5F6F8; padding: 128px 0;">
+<div class="wrap side" style="display: grid; grid-template-columns: 320px minmax(0, 1fr); gap: 64px;">
+<div style="display: flex; flex-direction: column; gap: 20px; align-items: flex-start;">
+<p class="lbl"><b>05</b>NEWS</p>
+<h2 class="h2">お知らせ</h2>
+<a class="more" href="#news" style="margin-top: 16px;">お知らせ一覧を見る<span class="arr" aria-hidden="true">→</span></a>
+</div>
+<div style="display: flex; flex-direction: column; border-top: 1px solid #111114;">
+<sc-for list="{{news}}" as="n" hint-placeholder-count="3">
+<a class="row" href="#news" style="display: grid; grid-template-columns: 120px 104px minmax(0, 1fr) 24px; gap: 24px; align-items: center; padding: 28px 16px; border-bottom: 1px solid #DADBE2;"><span class="en" style="font-size: 14px; color: #686973;">2026.00.00</span><span style="font-size: 12px; text-align: center; border: 1px solid #111114; padding: 1px 0;">{{n.cat}}</span><span style="font-weight: 500;">お知らせのタイトルが入ります</span><span class="en" aria-hidden="true">→</span></a>
+</sc-for>
+</div>
+</div>
+</section>
+
+<section id="company" style="padding: 128px 0;">
+<div class="wrap side" style="display: grid; grid-template-columns: 320px minmax(0, 1fr); gap: 64px;">
+<div style="display: flex; flex-direction: column; gap: 20px; align-items: flex-start;">
+<p class="lbl"><b>06</b>COMPANY</p>
+<h2 class="h2">会社概要</h2>
+<a class="more" href="#company" style="margin-top: 16px;">会社概要・メッセージを見る<span class="arr" aria-hidden="true">→</span></a>
+</div>
+<dl style="margin: 0; display: flex; flex-direction: column; border-top: 1px solid #111114;">
+<div style="display: grid; grid-template-columns: 200px minmax(0, 1fr); padding: 26px 0; border-bottom: 1px solid #E3E4EA;"><dt style="font-weight: 700;">会社名</dt><dd style="margin: 0;">Koto Square株式会社（コトスクエアー）</dd></div>
+<div style="display: grid; grid-template-columns: 200px minmax(0, 1fr); padding: 26px 0; border-bottom: 1px solid #E3E4EA;"><dt style="font-weight: 700;">代表者</dt><dd style="margin: 0; color: #686973;">代表者名が入ります</dd></div>
+<div style="display: grid; grid-template-columns: 200px minmax(0, 1fr); padding: 26px 0; border-bottom: 1px solid #E3E4EA;"><dt style="font-weight: 700;">設立</dt><dd style="margin: 0; color: #686973;">設立年月が入ります</dd></div>
+<div style="display: grid; grid-template-columns: 200px minmax(0, 1fr); padding: 26px 0; border-bottom: 1px solid #E3E4EA;"><dt style="font-weight: 700;">所在地</dt><dd style="margin: 0; color: #686973;">所在地が入ります</dd></div>
+<div style="display: grid; grid-template-columns: 200px minmax(0, 1fr); padding: 26px 0; border-bottom: 1px solid #E3E4EA;"><dt style="font-weight: 700;">事業内容</dt><dd style="margin: 0; display: flex; flex-direction: column;"><span>WEBサイトの制作＆運用</span><span>WEBマーケティング支援</span><span>動画広告の制作＆運用</span><span>商品開発</span></dd></div>
+</dl>
+</div>
+</section>
+
+<section id="contact" style="padding: 0 0 128px;">
+<div class="wrap">
+<div class="side" style="position: relative; overflow: hidden; background: #111114; color: #ffffff; padding: 88px 80px; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 400px); gap: 64px; align-items: center;">
+<svg viewBox="0 0 100 100" aria-hidden="true" style="position: absolute; right: -96px; bottom: -120px; width: 340px; height: 340px;">
+<polygon points="0,0 71.7,0 0,44" style="fill: #1B1C21;"></polygon>
+<polygon points="33.2,43.1 100,0 100,100 98.9,100" style="fill: #1B1C21;"></polygon>
+<polygon points="0,61.2 16.4,51.4 71.8,100 0,100" style="fill: #1B1C21;"></polygon>
+</svg>
+<div style="position: relative; display: flex; flex-direction: column; gap: 20px;">
+<p class="lbl" style="color: #A9AAB4;"><b style="color: #ffffff;">07</b>CONTACT</p>
+<h2 class="h2">まずは、<br>無料でご相談ください。</h2>
+<p style="margin: 0; font-size: 16px; line-height: 1.9; color: #C9CAD3;">課題の整理がまだの段階でも構いません。<br>WEBサイト、マーケティング、動画広告、商品開発について、<br>お気軽にお問い合わせください。</p>
+</div>
+<div style="position: relative; display: flex; flex-direction: column; gap: 16px;">
+<a class="btn btn-p" href="#contact" style="height: 80px; font-size: 18px;">無料で相談する<span class="arr" aria-hidden="true">→</span></a>
+<a class="btn btn-w" href="#contact" style="height: 80px; font-size: 18px;">会社資料をダウンロード<span class="arr" aria-hidden="true">↓</span></a>
+</div>
+</div>
+</div>
+</section>
+
+<footer style="background: #111114; color: #ffffff; padding: 80px 0 40px;">
+<div class="wrap" style="display: flex; flex-direction: column; gap: 64px;">
+<div style="display: flex; justify-content: space-between; gap: 48px; flex-wrap: wrap;">
+<div style="display: flex; flex-direction: column; gap: 20px;">
+<img src="/_blob/5220061920e1c18b73f6b2ece7be7ba5" alt="Koto Square" style="height: 22px; width: auto; filter: invert(1); align-self: flex-start;">
+<p style="margin: 0; font-size: 14px; color: #A9AAB4;">正しいことを、何度でも<span class="en" style="color: {{accent}}; font-size: 0.75em; vertical-align: 0.5em;">2</span>。</p>
+</div>
+<nav aria-label="フッターナビゲーション" style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px 64px; font-size: 14px;">
+<a href="#strength" style="color: #ffffff;">強み</a>
+<a href="#name" style="color: #ffffff;">社名の想い</a>
+<a href="#service" style="color: #ffffff;">事業内容</a>
+<a href="#works" style="color: #ffffff;">実績</a>
+<a href="#news" style="color: #ffffff;">お知らせ</a>
+<a href="#company" style="color: #ffffff;">会社概要</a>
+<a href="#contact" style="color: #ffffff;">お問い合わせ</a>
+<a href="#contact" style="color: #ffffff;">資料請求</a>
+</nav>
+</div>
+<div style="display: flex; justify-content: space-between; gap: 24px; padding-top: 24px; border-top: 1px solid #34353D; font-size: 12px; color: #A9AAB4; flex-wrap: wrap;">
+<a href="#top" style="color: #A9AAB4;">プライバシーポリシー</a>
+<p class="en" style="margin: 0;">© 2026 Koto Square</p>
+</div>
+</div>
+</footer>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"accent":{"editor":"color","default":"#1E3CFF","options":["#1E3CFF","#111114","#0A6B5C"]},"autoplay":{"editor":"boolean","default":true},"$preview":{"width":1440,"height":6680}}'>
+class Component extends DCLogic {
+  componentDidMount() {
+    const rm = typeof window !== 'undefined' && window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (rm || this.props.autoplay === false) {
+      this.setState({ stage: 2, playing: false });
+      return;
+    }
+    this.setState({ stage: -1, playing: true });
+    this.t0 = setTimeout(() => this.setState({ stage: 0 }), 250);
+    this.timer = setInterval(() => {
+      const s = this.state || {};
+      if (!s.playing || s.hover) return;
+      const next = Math.min((s.stage ?? 0) + 1, 2);
+      this.setState({ stage: next, playing: next < 2 });
+    }, 3400);
+  }
+  componentWillUnmount() { clearInterval(this.timer); clearTimeout(this.t0); }
+  renderVals() {
+    const s = this.state || {};
+    const stage = s.stage ?? 2;
+    const playing = !!s.playing;
+    const accent = this.props.accent ?? '#1E3CFF';
+    const ink = '#111114';
+    const ghost = '#E9EAEE';
+    const piece = (on, dx, dy) => ({ fill: on ? ink : ghost, tf: on ? 'translate(0px, 0px)' : 'translate(' + dx + 'px, ' + dy + 'px)' });
+    const shown = Math.max(stage, 0);
+    const data = [
+      { no: '01', word: 'TRUE', sup: '', jp: '正しいと信じた方法を、' },
+      { no: '02', word: 'CONSTANT', sup: '', jp: '何度でも、' },
+      { no: '03', word: 'KOTO', sup: '²', jp: '提案・実行し続ける。' }
+    ];
+    const caps = data.map((d, k) => ({
+      ...d,
+      op: k === shown ? 1 : 0,
+      tf: k === shown ? 'none' : (k < shown ? 'translateY(-12px)' : 'translateY(12px)'),
+      hidden: k === shown ? 'false' : 'true',
+      aria: (k + 1) + '. ' + d.word + d.sup + ' を表示',
+      pressed: k === shown ? 'true' : 'false',
+      tabC: k <= shown ? ink : '#686973',
+      bar: k < shown ? 'full' : (k === shown ? (playing && stage >= 0 ? 'run' : 'full') : ''),
+      runState: s.hover ? 'paused' : 'running',
+      go: () => this.setState({ stage: k, playing: false })
+    }));
+    const pts = [
+      { no: '01', key: 'TRUE', title: '正しいと信じた方法を、\n提案する', body: 'その場しのぎの施策ではなく、クライアントにとって正しいと信じられる方法をご提案します。' },
+      { no: '02', key: 'CONSTANT', title: '何度でも、\n実行し続ける', body: '提案して終わりにせず、実行と見直しを何度でも重ねながら、クライアントと同じ方向を向いて進みます。' },
+      { no: '03', key: 'SQUARE', title: '4つの領域を、\n掛け合わせる', body: 'WEBサイト・WEBマーケティング・動画広告・商品開発。領域をまたぐ課題も、まとめてご相談いただけます。' }
+    ];
+    const points = pts.map((p, k) => ({ ...p, a: ink, b: k >= 1 ? ink : ghost, c: k >= 2 ? ink : ghost, sq: k >= 2 ? 1 : 0 }));
+    const services = [
+      { no: '01', en: 'WEB PRODUCTION', title: 'WEBサイトの制作＆運用', body: 'サイトの設計・制作から、公開後の運用までを担当します。' },
+      { no: '02', en: 'WEB MARKETING', title: 'WEBマーケティング支援', body: 'WEBを活用した集客・販促の取り組みを支援します。' },
+      { no: '03', en: 'VIDEO ADS', title: '動画広告の制作＆運用', body: '動画広告の制作から、配信後の運用までを担当します。' },
+      { no: '04', en: 'PRODUCT DEVELOPMENT', title: '商品開発', body: '商品の企画・開発を支援します。' }
+    ];
+    const works = [
+      { no: '01', cat: 'WEB制作', a: 1, b: 0, c: 0 },
+      { no: '02', cat: '動画広告', a: 0, b: 1, c: 0 },
+      { no: '03', cat: '商品開発', a: 0, b: 0, c: 1 }
+    ];
+    const news = [{ cat: 'お知らせ' }, { cat: 'お知らせ' }, { cat: 'お知らせ' }];
+    return {
+      accent,
+      caps,
+      pA: piece(stage >= 0, -4, -4),
+      pB: piece(stage >= 1, 5, 0),
+      pC: piece(stage >= 2, -4, 4),
+      sq: { op: stage >= 2 ? 1 : 0, tf: stage >= 2 ? 'scale(1)' : 'scale(0.6)' },
+      ctlLabel: playing ? '自動再生を一時停止' : '最初から再生',
+      playing,
+      notPlaying: !playing,
+      toggle: () => {
+        const c = this.state || {};
+        if (c.playing) { this.setState({ playing: false }); return; }
+        const cur = c.stage ?? 2;
+        this.setState({ stage: cur >= 2 ? 0 : cur, playing: true });
+      },
+      hoverOn: () => this.setState({ hover: true }),
+      hoverOff: () => this.setState({ hover: false }),
+      points,
+      services,
+      works,
+      news
+    };
+  }
+}
+</script>
+</body>
+</html>
