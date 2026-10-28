@@ -52,7 +52,11 @@ a:hover{color:#111114}
 
 /* ---------- Logo mark (SVG, measured from the official logo) ---------- */
 .pc{transition:transform var(--slow) var(--ease),fill .6s var(--ease)}
-.sq{transform-box:fill-box;transform-origin:center;transition:transform .7s var(--ease),opacity .5s var(--ease)}
+.sqb{transform-box:fill-box;transform-origin:center;animation:sqP0 .8s cubic-bezier(.34,1.56,.64,1) both}
+@keyframes sqP0{from{transform:scale(.6)}to{transform:none}}
+@keyframes sqP1{from{transform:scale(.6)}to{transform:none}}
+@keyframes sqP2{from{transform:scale(.6)}to{transform:none}}
+.sqn{transition:opacity .4s ease}
 .cap{transition:opacity .6s var(--ease),transform .8s var(--ease)}
 .tab{position:relative;display:flex;flex-direction:column;align-items:flex-start;gap:10px;padding:0;border:0;background:none;cursor:pointer;font:inherit;color:inherit;text-align:left;min-height:44px}
 .tab:focus-visible,.ctl:focus-visible{outline:2px solid var(--accent);outline-offset:4px}
@@ -89,12 +93,12 @@ a:hover{color:#111114}
 .op-a{animation:inA .9s var(--ease) .15s both}
 .op-b{animation:inB .9s var(--ease) .3s both}
 .op-c{animation:inC .9s var(--ease) .45s both}
-.op-sq{transform-box:fill-box;transform-origin:center;animation:sqIn .6s var(--ease) 1.05s both}
+.op-sq{transform-box:fill-box;transform-origin:center;animation:sqIn .6s cubic-bezier(.34,1.56,.64,1) 1.05s both}
 .op-cap{position:absolute;left:50%;top:50%;margin-top:104px;transform:translateX(-50%);font-family:'Jost',sans-serif;font-size:12px;letter-spacing:.32em;color:#111114;white-space:nowrap;animation:capIn 1.5s var(--ease) .8s both}
 .op-skip{position:absolute;right:32px;bottom:28px;font-family:'Jost',sans-serif;font-size:11px;letter-spacing:.24em;color:#686973;animation:capIn 2s ease .4s both}
-@keyframes inA{from{opacity:0;transform:translate(-22px,-22px)}to{opacity:1;transform:none}}
-@keyframes inB{from{opacity:0;transform:translate(30px,0)}to{opacity:1;transform:none}}
-@keyframes inC{from{opacity:0;transform:translate(-22px,22px)}to{opacity:1;transform:none}}
+@keyframes inA{from{opacity:0;transform:translate(-56px,-56px)}to{opacity:1;transform:none}}
+@keyframes inB{from{opacity:0;transform:translate(72px,0)}to{opacity:1;transform:none}}
+@keyframes inC{from{opacity:0;transform:translate(-56px,56px)}to{opacity:1;transform:none}}
 @keyframes sqIn{from{opacity:0;transform:scale(.4)}to{opacity:1;transform:none}}
 @keyframes capIn{0%{opacity:0;transform:translate(-50%,8px)}35%,75%{opacity:1;transform:translate(-50%,0)}100%{opacity:0}}
 @keyframes opZoom{0%{transform:scale(1)}100%{transform:scale(70)}}
@@ -109,8 +113,8 @@ a:hover{color:#111114}
 .ln.l2 > span{animation-delay:3.2s}.ln.l2::after{animation-delay:2.85s}
 @keyframes lnUp{0%,40%{opacity:0;transform:translateY(40%)}100%{opacity:1;transform:none}}
 @keyframes cover{0%{transform:scaleX(0);transform-origin:left}45%{transform:scaleX(1);transform-origin:left}55%{transform:scaleX(1);transform-origin:right}100%{transform:scaleX(0);transform-origin:right}}
-.sup{display:inline-block;animation:supIn .7s var(--ease) 3.75s both}
-@keyframes supIn{from{opacity:0;transform:translateY(-40%)}to{opacity:1;transform:none}}
+.sup{display:inline-block;animation:supIn .8s cubic-bezier(.34,1.56,.64,1) 3.75s both}
+@keyframes supIn{from{opacity:0;transform:translateY(-30%) scale(.3)}to{opacity:1;transform:none}}
 .fi{animation:fi 1s var(--ease) both}
 .d0{animation-delay:2.75s}.d1{animation-delay:3.45s}.d2{animation-delay:3.6s}.d3{animation-delay:3s}.d4{animation-delay:3.9s}
 @keyframes fi{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:none}}
@@ -122,6 +126,18 @@ a:hover{color:#111114}
 @keyframes arwRoll{0%{transform:translateX(0)}45%{transform:translateX(130%);opacity:0}46%{transform:translateX(-130%);opacity:0}100%{transform:translateX(0);opacity:1}}
 .card .ln2{position:absolute;left:0;bottom:0;height:3px;width:100%;background:var(--accent);transform:scaleX(0);transform-origin:left;transition:transform .7s var(--ease)}
 .card:hover .ln2{transform:scaleX(1)}
+
+/* ---------- Works marquee / news slider ---------- */
+.mqw{overflow:hidden}
+.mq{display:flex;gap:24px;width:max-content;padding:0 0 8px;animation:mq 60s linear infinite}
+.mqw:hover .mq,.mqw:focus-within .mq{animation-play-state:paused}
+@keyframes mq{to{transform:translateX(calc(-50% - 12px))}}
+.ntrk{transition:transform 1s cubic-bezier(.77,0,.18,1)}
+.nbtn{width:52px;height:52px;border:1px solid var(--ink);background:#ffffff;color:var(--ink);font-size:18px;cursor:pointer;transition:background var(--fast) ease,color var(--fast) ease}
+.nbtn:hover{background:var(--ink);color:#ffffff}
+.nbtn-d{background:var(--ink);color:#ffffff}
+.nbtn-d:hover{background:var(--accent);border-color:var(--accent)}
+.nbtn:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
 
 /* ---------- Scroll-driven (progressive: browsers without it show everything) ---------- */
 @supports (animation-timeline: view()){
@@ -185,11 +201,18 @@ a:hover{color:#111114}
 </div>
 
 <div class="kv fi d3" role="group" aria-label="ロゴに込めた3つの考え方" onMouseEnter="{{hoverOn}}" onMouseLeave="{{hoverOff}}" onFocus="{{hoverOn}}" onBlur="{{hoverOff}}" style="display: flex; flex-direction: column; gap: 32px;">
-<svg viewBox="0 -22 122 122" role="img" aria-label="Koto Squareのロゴマーク。3つのピースと2本の白い斜線でKを表し、右上の青い正方形が2乗を表す" style="width: 100%; height: auto; display: block; overflow: visible;">
+<svg viewBox="0 -26 128 126" role="img" aria-label="Koto Squareのロゴマーク。3つのピースと2本の白い斜線でKを表し、右上の青い正方形が2乗を表す" style="width: 100%; height: auto; display: block; overflow: visible;">
 <polygon class="pc" points="0,0 71.7,0 0,44" style="fill: {{pA.fill}}; transform: {{pA.tf}};"></polygon>
 <polygon class="pc" points="33.2,43.1 100,0 100,100 98.9,100" style="fill: {{pB.fill}}; transform: {{pB.tf}};"></polygon>
 <polygon class="pc" points="0,61.2 16.4,51.4 71.8,100 0,100" style="fill: {{pC.fill}}; transform: {{pC.tf}};"></polygon>
-<rect class="sq" x="106" y="-20" width="14" height="14" style="fill: {{accent}}; opacity: {{sq.op}}; transform: {{sq.tf}};"></rect>
+<g class="sqb" style="animation-name: {{sqAnim}};">
+<rect x="105" y="-26" width="23" height="23" style="fill: {{accent}};"></rect>
+<text x="107.6" y="-20.6" style="font-family: 'Jost', sans-serif; font-size: 2.3px; letter-spacing: 0.5px; fill: #ffffff;">SQUARE</text>
+<text x="107.4" y="-6.2" style="font-family: 'Jost', sans-serif; font-size: 7px; font-weight: 300; fill: #ffffff; opacity: {{n1}};">01</text>
+<text x="107.4" y="-6.2" style="font-family: 'Jost', sans-serif; font-size: 7px; font-weight: 300; fill: #ffffff; opacity: {{n2}};">02</text>
+<text x="107.4" y="-6.2" style="font-family: 'Jost', sans-serif; font-size: 7px; font-weight: 300; fill: #ffffff; opacity: {{n3}};">03</text>
+<text x="117.6" y="-6.4" style="font-family: 'Jost', sans-serif; font-size: 2.6px; fill: #C9D0FF;">/ 03</text>
+</g>
 </svg>
 <div style="display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 24px; align-items: end;">
 <div aria-live="polite" style="position: relative; height: 64px;">
@@ -304,51 +327,65 @@ a:hover{color:#111114}
 </div>
 </section>
 
-<section id="works" style="padding: 0 0 128px;">
-<div class="wrap" style="display: flex; flex-direction: column; gap: 56px;">
-<div class="rv" style="display: flex; justify-content: space-between; align-items: flex-end; gap: 32px; flex-wrap: wrap;">
+<section id="works" style="padding: 0 0 128px; overflow: hidden;">
+<div class="wrap rv" style="display: flex; justify-content: space-between; align-items: flex-end; gap: 32px; flex-wrap: wrap; margin-bottom: 56px;">
 <div style="display: flex; flex-direction: column; gap: 20px;">
 <p class="lbl"><b>04</b>WORKS</p>
 <h2 class="h2">制作実績</h2>
 </div>
 <a class="more" href="#works">実績一覧を見る<span class="arr" aria-hidden="true">→</span></a>
 </div>
-<div class="g3" style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px;">
-<sc-for list="{{works}}" as="w" hint-placeholder-count="3">
-<a class="card rv" href="#works" style="border: 1px solid #E3E4EA; display: flex; flex-direction: column; color: #111114; background: #ffffff;">
-<div class="ph" style="aspect-ratio: 16 / 10;">
+<div class="mqw" role="region" aria-label="制作実績（自動で横に流れます。マウスを乗せると止まります）">
+<div class="mq">
+<sc-for list="{{worksLoop}}" as="w" hint-placeholder-count="12">
+<a class="card" href="#works" aria-hidden="{{w.dup}}" tabindex="{{w.tab}}" style="position: relative; flex: 0 0 400px; border: 1px solid #E3E4EA; display: flex; flex-direction: column; color: #111114; background: #ffffff;">
+<div class="ph" style="aspect-ratio: 16 / 10; background: {{w.bg}};">
 <div class="im" aria-hidden="true" style="position: absolute; inset: 0;">
-<svg viewBox="0 0 160 100" preserveAspectRatio="xMidYMid slice" style="width: 100%; height: 100%; display: block;">
-<polygon points="0,0 114,0 0,70" style="fill: #E9EAEE; opacity: {{w.a}};"></polygon>
-<polygon points="53,43 160,0 160,100 158,100" style="fill: #E9EAEE; opacity: {{w.b}};"></polygon>
-<polygon points="0,61 26,51 115,100 0,100" style="fill: #E9EAEE; opacity: {{w.c}};"></polygon>
-</svg>
+<sc-if value="{{w.web}}" hint-placeholder-val="{{ true }}"><svg viewBox="0 0 160 100" style="width: 100%; height: 100%; display: block;"><rect x="24" y="14" width="112" height="76" style="fill: #ffffff;"></rect><rect x="24" y="14" width="112" height="7" style="fill: #E3E4EA;"></rect><circle cx="29" cy="17.5" r="1.3" style="fill: #B5B7C2;"></circle><circle cx="33.5" cy="17.5" r="1.3" style="fill: #B5B7C2;"></circle><rect x="32" y="29" width="44" height="5" style="fill: #111114;"></rect><rect x="32" y="37" width="34" height="5" style="fill: #111114;"></rect><rect x="32" y="47" width="40" height="2" style="fill: #C9CAD3;"></rect><rect x="32" y="51" width="32" height="2" style="fill: #C9CAD3;"></rect><rect x="32" y="58" width="18" height="6" style="fill: {{accent}};"></rect><polygon points="88,28 117,28 88,46" style="fill: #111114;"></polygon><polygon points="101.5,45.5 128,28 128,68 127.6,68" style="fill: #111114;"></polygon><polygon points="88,53 94.6,49 117,68 88,68" style="fill: #111114;"></polygon><rect x="32" y="74" width="28" height="9" style="fill: #F5F6F8;"></rect><rect x="64" y="74" width="28" height="9" style="fill: #F5F6F8;"></rect><rect x="96" y="74" width="28" height="9" style="fill: #F5F6F8;"></rect></svg></sc-if>
+<sc-if value="{{w.video}}" hint-placeholder-val="{{ false }}"><svg viewBox="0 0 160 100" style="width: 100%; height: 100%; display: block;"><rect x="62" y="8" width="36" height="84" rx="5" style="fill: #111114;"></rect><rect x="65" y="14" width="30" height="72" style="fill: #2A2B33;"></rect><polygon points="76,42 88,50 76,58" style="fill: #ffffff;"></polygon><rect x="68" y="76" width="16" height="2" style="fill: #8A8B95;"></rect><rect x="68" y="80" width="10" height="2" style="fill: #8A8B95;"></rect><rect x="89" y="18" width="3.5" height="3.5" style="fill: {{accent}};"></rect><rect x="28" y="40" width="22" height="2" style="fill: #C9CAD3;"></rect><rect x="110" y="58" width="22" height="2" style="fill: #C9CAD3;"></rect></svg></sc-if>
+<sc-if value="{{w.mkt}}" hint-placeholder-val="{{ false }}"><svg viewBox="0 0 160 100" style="width: 100%; height: 100%; display: block;"><rect x="24" y="16" width="112" height="70" style="fill: #ffffff;"></rect><rect x="34" y="26" width="30" height="3" style="fill: #111114;"></rect><rect x="40" y="62" width="10" height="14" style="fill: #E3E4EA;"></rect><rect x="56" y="56" width="10" height="20" style="fill: #E3E4EA;"></rect><rect x="72" y="50" width="10" height="26" style="fill: #C9CAD3;"></rect><rect x="88" y="44" width="10" height="32" style="fill: #8A8B95;"></rect><rect x="104" y="36" width="10" height="40" style="fill: #111114;"></rect><polyline points="45,58 61,52 77,46 93,40 109,30 120,24" style="fill: none; stroke: {{accent}}; stroke-width: 1.4;"></polyline><rect x="118" y="22" width="4" height="4" style="fill: {{accent}};"></rect></svg></sc-if>
+<sc-if value="{{w.prod}}" hint-placeholder-val="{{ false }}"><svg viewBox="0 0 160 100" style="width: 100%; height: 100%; display: block;"><polygon points="56,30 80,22 104,30 80,38" style="fill: #ffffff;"></polygon><polygon points="56,30 80,38 80,82 56,74" style="fill: #E3E4EA;"></polygon><polygon points="80,38 104,30 104,74 80,82" style="fill: #111114;"></polygon><rect x="62" y="48" width="12" height="2" style="fill: #8A8B95;"></rect><rect x="62" y="53" width="8" height="2" style="fill: #8A8B95;"></rect><rect x="88" y="44" width="5" height="5" style="fill: {{accent}};"></rect></svg></sc-if>
 </div>
-<span class="en" style="position: absolute; left: 20px; top: 16px; font-size: 11px; letter-spacing: 0.2em; color: #686973;">IMAGE</span>
+<span class="en" style="position: absolute; left: 20px; top: 16px; font-size: 11px; letter-spacing: 0.2em; color: #686973;">{{w.no}}</span>
 </div>
 <div style="padding: 24px 28px 30px; display: flex; flex-direction: column; gap: 10px;">
-<div style="display: flex; justify-content: space-between; align-items: center;"><span style="font-size: 12px; border: 1px solid #111114; padding: 1px 10px;">{{w.cat}}</span><span class="en" style="font-size: 12px; color: #686973;">{{w.no}}</span></div>
-<span style="font-size: 18px; font-weight: 700; line-height: 1.6;">実績タイトルが入ります</span>
-<span style="font-size: 13px; color: #686973;">クライアント名が入ります</span>
+<div style="display: flex; gap: 8px; align-items: center;"><span style="font-size: 12px; border: 1px solid #111114; padding: 1px 10px;">{{w.cat}}</span><span style="font-size: 12px; color: #686973;">{{w.ind}}</span></div>
+<span style="font-size: 18px; font-weight: 700; line-height: 1.6;">{{w.title}}</span>
 </div>
+<span class="ln2" aria-hidden="true"></span>
 </a>
 </sc-for>
 </div>
 </div>
 </section>
 
-<section id="news" style="background: #F5F6F8; padding: 128px 0;">
-<div class="wrap side" style="display: grid; grid-template-columns: 320px minmax(0, 1fr); gap: 64px;">
-<div class="rv" style="display: flex; flex-direction: column; gap: 20px; align-items: flex-start;">
+<section id="news" style="background: #F5F6F8; padding: 128px 0; overflow: hidden;">
+<div class="wrap" style="display: flex; flex-direction: column; gap: 48px;">
+<div class="rv" style="display: flex; justify-content: space-between; align-items: flex-end; gap: 32px; flex-wrap: wrap;">
+<div style="display: flex; flex-direction: column; gap: 20px;">
 <p class="lbl"><b>05</b>NEWS</p>
 <h2 class="h2">お知らせ</h2>
-<a class="more" href="#news" style="margin-top: 16px;">お知らせ一覧を見る<span class="arr" aria-hidden="true">→</span></a>
 </div>
-<div class="rv" style="display: flex; flex-direction: column; border-top: 1px solid #111114;">
-<sc-for list="{{news}}" as="n" hint-placeholder-count="3">
-<a class="row" href="#news" style="display: grid; grid-template-columns: 120px 104px minmax(0, 1fr) 24px; gap: 24px; align-items: center; padding: 28px 16px; border-bottom: 1px solid #DADBE2;"><span class="en" style="font-size: 14px; color: #686973;">2026.00.00</span><span style="font-size: 12px; text-align: center; border: 1px solid #111114; padding: 1px 0;">{{n.cat}}</span><span style="font-weight: 500;">お知らせのタイトルが入ります</span><span class="en" aria-hidden="true">→</span></a>
+<div style="display: flex; align-items: center; gap: 12px;">
+<p class="en" style="margin: 0 12px 0 0; font-size: 14px; letter-spacing: 0.16em; color: #686973;">{{newsNum}} / {{newsMax}}</p>
+<button type="button" class="nbtn" aria-label="前のお知らせ" onClick="{{newsPrev}}">←</button>
+<button type="button" class="nbtn nbtn-d" aria-label="次のお知らせ" onClick="{{newsNext}}">→</button>
+<a class="more" href="#news" style="margin-left: 20px;">お知らせ一覧を見る<span class="arr" aria-hidden="true">→</span></a>
+</div>
+</div>
+<div class="rv" style="overflow: hidden;" onMouseEnter="{{newsHoverOn}}" onMouseLeave="{{newsHoverOff}}" onFocus="{{newsHoverOn}}" onBlur="{{newsHoverOff}}">
+<div class="ntrk" style="display: flex; gap: 24px; transform: translateX({{newsX}});">
+<sc-for list="{{news}}" as="n" hint-placeholder-count="6">
+<a class="card ncard" href="#news" style="position: relative; flex: 0 0 384px; box-sizing: border-box; background: #ffffff; border: 1px solid #E3E4EA; padding: 32px 32px 28px; display: flex; flex-direction: column; gap: 16px; min-height: 248px; color: #111114;">
+<div style="display: flex; align-items: center; gap: 14px;"><span class="en" style="font-size: 14px; color: #686973;">{{n.date}}</span><span style="font-size: 12px; border: 1px solid #111114; padding: 1px 10px;">{{n.cat}}</span></div>
+<span style="font-size: 17px; font-weight: 700; line-height: 1.7; flex: 1;">{{n.title}}</span>
+<span class="go en" aria-hidden="true" style="align-self: flex-end; width: 40px; height: 40px; border: 1px solid #111114; display: inline-flex; align-items: center; justify-content: center;">→</span>
+<span class="ln2" aria-hidden="true"></span>
+</a>
 </sc-for>
 </div>
+</div>
+<div style="height: 1px; background: #DADBE2; position: relative;"><div style="position: absolute; left: 0; top: -1px; height: 3px; width: {{newsBar}}; background: #111114; transition: width .9s cubic-bezier(.16,1,.3,1);"></div></div>
 </div>
 </section>
 
@@ -361,9 +398,9 @@ a:hover{color:#111114}
 </div>
 <dl class="rv" style="margin: 0; display: flex; flex-direction: column; border-top: 1px solid #111114;">
 <div style="display: grid; grid-template-columns: 200px minmax(0, 1fr); padding: 26px 0; border-bottom: 1px solid #E3E4EA;"><dt style="font-weight: 700;">会社名</dt><dd style="margin: 0;">Koto Square株式会社（コトスクエアー）</dd></div>
-<div style="display: grid; grid-template-columns: 200px minmax(0, 1fr); padding: 26px 0; border-bottom: 1px solid #E3E4EA;"><dt style="font-weight: 700;">代表者</dt><dd style="margin: 0; color: #686973;">代表者名が入ります</dd></div>
-<div style="display: grid; grid-template-columns: 200px minmax(0, 1fr); padding: 26px 0; border-bottom: 1px solid #E3E4EA;"><dt style="font-weight: 700;">設立</dt><dd style="margin: 0; color: #686973;">設立年月が入ります</dd></div>
-<div style="display: grid; grid-template-columns: 200px minmax(0, 1fr); padding: 26px 0; border-bottom: 1px solid #E3E4EA;"><dt style="font-weight: 700;">所在地</dt><dd style="margin: 0; color: #686973;">所在地が入ります</dd></div>
+<div style="display: grid; grid-template-columns: 200px minmax(0, 1fr); padding: 26px 0; border-bottom: 1px solid #E3E4EA;"><dt style="font-weight: 700;">代表者</dt><dd style="margin: 0;">代表取締役　山田 太郎</dd></div>
+<div style="display: grid; grid-template-columns: 200px minmax(0, 1fr); padding: 26px 0; border-bottom: 1px solid #E3E4EA;"><dt style="font-weight: 700;">設立</dt><dd style="margin: 0;">2025年4月</dd></div>
+<div style="display: grid; grid-template-columns: 200px minmax(0, 1fr); padding: 26px 0; border-bottom: 1px solid #E3E4EA;"><dt style="font-weight: 700;">所在地</dt><dd style="margin: 0;">〒150-0002　東京都渋谷区渋谷1-2-3</dd></div>
 <div style="display: grid; grid-template-columns: 200px minmax(0, 1fr); padding: 26px 0; border-bottom: 1px solid #E3E4EA;"><dt style="font-weight: 700;">事業内容</dt><dd style="margin: 0; display: flex; flex-direction: column;"><span>WEBサイトの制作＆運用</span><span>WEBマーケティング支援</span><span>動画広告の制作＆運用</span><span>商品開発</span></dd></div>
 </dl>
 </div>
@@ -417,7 +454,7 @@ a:hover{color:#111114}
 
 </div>
 </x-dc>
-<script type="text/x-dc" data-dc-script data-props='{"accent":{"editor":"color","default":"#1E3CFF","options":["#1E3CFF","#111114","#0A6B5C"]},"autoplay":{"editor":"boolean","default":true},"$preview":{"width":1440,"height":6835}}'>
+<script type="text/x-dc" data-dc-script data-props='{"accent":{"editor":"color","default":"#1E3CFF","options":["#1E3CFF","#111114","#0A6B5C"]},"autoplay":{"editor":"boolean","default":true},"$preview":{"width":1440,"height":7001}}'>
 class Component extends DCLogic {
   componentDidMount() {
     const rm = typeof window !== 'undefined' && window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -426,6 +463,7 @@ class Component extends DCLogic {
       return;
     }
     this.setState({ stage: -1, playing: true });
+    this.nt = setInterval(() => { const c = this.state || {}; if (c.newsHover) return; this.setState({ news: ((c.news || 0) + 1) % 4 }); }, 5000);
     this.t0 = setTimeout(() => { this.setState({ stage: 0, opDone: true }); this.startTimer(); }, 3400);
   }
   startTimer() {
@@ -433,11 +471,10 @@ class Component extends DCLogic {
     this.timer = setInterval(() => {
       const s = this.state || {};
       if (!s.playing || s.hover) return;
-      const next = Math.min((s.stage ?? 0) + 1, 2);
-      this.setState({ stage: next, playing: next < 2 });
+      this.setState({ stage: ((s.stage ?? 0) + 1) % 3 });
     }, 3400);
   }
-  componentWillUnmount() { clearInterval(this.timer); clearTimeout(this.t0); }
+  componentWillUnmount() { clearInterval(this.timer); clearInterval(this.nt); clearTimeout(this.t0); }
   skipOpening() {
     clearTimeout(this.t0);
     const c = this.state || {};
@@ -482,37 +519,61 @@ class Component extends DCLogic {
       { no: '03', en: 'VIDEO ADS', title: '動画広告の制作＆運用', body: '動画広告の制作から、配信後の運用までを担当します。' },
       { no: '04', en: 'PRODUCT DEVELOPMENT', title: '商品開発', body: '商品の企画・開発を支援します。' }
     ];
-    const works = [
-      { no: '01', cat: 'WEB制作', a: 1, b: 0, c: 0 },
-      { no: '02', cat: '動画広告', a: 0, b: 1, c: 0 },
-      { no: '03', cat: '商品開発', a: 0, b: 0, c: 1 }
+    const wd = [
+      { cat: 'WEB制作', ind: '製造業 / BtoB', title: 'コーポレートサイトのフルリニューアル', kind: 'web', bg: '#F0F1F5' },
+      { cat: '動画広告', ind: '美容・コスメ', title: 'SNS向け縦型動画広告の企画・制作', kind: 'video', bg: '#E6E8F0' },
+      { cat: 'マーケティング', ind: '人材サービス', title: 'リスティング広告の運用改善', kind: 'mkt', bg: '#F0F1F5' },
+      { cat: '商品開発', ind: '食品メーカー', title: 'オリジナル商品の企画とEC立ち上げ', kind: 'prod', bg: '#E6E8F0' },
+      { cat: 'WEB制作', ind: 'IT・SaaS', title: '採用サイトの新規制作', kind: 'web', bg: '#F0F1F5' },
+      { cat: '動画広告', ind: '不動産', title: 'YouTube広告用ブランドムービーの制作', kind: 'video', bg: '#E6E8F0' }
     ];
-    const news = [{ cat: 'お知らせ' }, { cat: 'お知らせ' }, { cat: 'お知らせ' }];
+    const worksLoop = wd.concat(wd).map((w, k) => ({ ...w, no: 'WORKS ' + String((k % wd.length) + 1).padStart(2, '0'), web: w.kind === 'web', video: w.kind === 'video', mkt: w.kind === 'mkt', prod: w.kind === 'prod', dup: k >= wd.length ? 'true' : 'false', tab: k >= wd.length ? '-1' : '0' }));
+    const news = [
+      { date: '2026.10.20', cat: 'お知らせ', title: 'コーポレートサイトをリニューアルしました' },
+      { date: '2026.10.06', cat: '実績', title: '製造業のお客さまのコーポレートサイトを公開しました' },
+      { date: '2026.09.22', cat: 'コラム', title: '問い合わせにつながるWEBサイト設計の基本' },
+      { date: '2026.09.08', cat: 'お知らせ', title: '動画広告の制作・運用サービスを拡充しました' },
+      { date: '2026.08.25', cat: 'コラム', title: '縦型動画広告で押さえたい3つのポイント' },
+      { date: '2026.08.04', cat: 'お知らせ', title: '夏季休業期間のお知らせ' }
+    ];
+    const nMax = news.length - 3;
+    const ni = Math.min(s.news || 0, nMax);
     return {
       accent,
       rootClass: s.skipped ? 'ks skip' : 'ks',
       opClass: s.opDone ? 'op done' : 'op',
       skipOp: () => this.skipOpening(),
       caps,
-      pA: piece(stage >= 0, -4, -4),
-      pB: piece(stage >= 1, 5, 0),
-      pC: piece(stage >= 2, -4, 4),
-      sq: { op: stage >= 2 ? 1 : 0, tf: stage >= 2 ? 'scale(1)' : 'scale(0.6)' },
-      ctlLabel: playing ? '自動再生を一時停止' : '最初から再生',
+      pA: piece(stage >= 0, -12, -12),
+      pB: piece(stage >= 1, 16, 0),
+      pC: piece(stage >= 2, -12, 12),
+      n1: shown === 0 ? 1 : 0,
+      n2: shown === 1 ? 1 : 0,
+      n3: shown === 2 ? 1 : 0,
+      sqAnim: 'sqP' + shown,
+      ctlLabel: playing ? '自動再生を一時停止' : '自動再生を再開',
       playing,
       notPlaying: !playing,
       toggle: () => {
         const c = this.state || {};
         if (c.playing) { this.setState({ playing: false }); return; }
-        const cur = c.stage ?? 2;
-        this.setState({ stage: cur >= 2 ? 0 : cur, playing: true });
+        this.setState({ playing: true });
+        this.startTimer();
       },
       hoverOn: () => this.setState({ hover: true }),
       hoverOff: () => this.setState({ hover: false }),
       points,
       services,
-      works,
-      news
+      worksLoop,
+      news,
+      newsX: (-ni * 408) + 'px',
+      newsNum: String(ni + 1).padStart(2, '0'),
+      newsMax: String(nMax + 1).padStart(2, '0'),
+      newsBar: (((ni + 1) / (nMax + 1)) * 100) + '%',
+      newsHoverOn: () => this.setState({ newsHover: true }),
+      newsHoverOff: () => this.setState({ newsHover: false }),
+      newsPrev: () => { const c = this.state || {}; this.setState({ news: ((c.news || 0) + nMax) % (nMax + 1) }); },
+      newsNext: () => { const c = this.state || {}; this.setState({ news: ((c.news || 0) + 1) % (nMax + 1) }); }
     };
   }
 }
