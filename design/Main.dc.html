@@ -129,6 +129,10 @@ a:hover{color:#111114}
 
 /* ---------- Works marquee / news slider ---------- */
 .mqw{overflow:hidden}
+.mq.rev{animation-direction:reverse;animation-duration:72s}
+.pt{flex:0 0 200px;height:72px;border:1px solid var(--line);display:flex;align-items:center;justify-content:center;gap:12px;background:#ffffff}
+.pt i{width:10px;height:10px;background:#C9CAD3;display:block}
+.pt:nth-child(5n+2) i{background:var(--accent)}
 .mq{display:flex;gap:24px;width:max-content;padding:0 0 8px;animation:mq 60s linear infinite}
 .mqw:hover .mq,.mqw:focus-within .mq{animation-play-state:paused}
 @keyframes mq{to{transform:translateX(calc(-50% - 12px))}}
@@ -244,6 +248,27 @@ a:hover{color:#111114}
 <div class="scrl"></div>
 <p class="en" style="margin: 0; font-size: 11px; letter-spacing: 0.28em; color: #686973;">SCROLL</p>
 </div>
+
+<section id="partners" aria-label="提携会社" style="border-top: 1px solid #E3E4EA; border-bottom: 1px solid #E3E4EA; padding: 48px 0; display: flex; flex-direction: column; gap: 20px; overflow: hidden;">
+<div class="wrap-wide rv" style="width: 100%; box-sizing: border-box; display: flex; justify-content: space-between; align-items: center; gap: 24px; flex-wrap: wrap;">
+<p class="lbl"><b>PARTNERS</b>提携会社</p>
+<p style="margin: 0; font-size: 12px; color: #686973;">※ロゴはダミーです</p>
+</div>
+<div class="mqw" role="region" aria-label="提携会社ロゴ（自動で横に流れます。マウスを乗せると止まります）">
+<div class="mq">
+<sc-for list="{{partnersA}}" as="l" hint-placeholder-count="16">
+<div class="pt" aria-hidden="{{l.dup}}"><i></i><span class="en" style="font-size: 12px; letter-spacing: 0.18em; color: #686973;">LOGO {{l.n}}</span></div>
+</sc-for>
+</div>
+</div>
+<div class="mqw" aria-hidden="true">
+<div class="mq rev">
+<sc-for list="{{partnersB}}" as="l" hint-placeholder-count="16">
+<div class="pt"><i></i><span class="en" style="font-size: 12px; letter-spacing: 0.18em; color: #686973;">LOGO {{l.n}}</span></div>
+</sc-for>
+</div>
+</div>
+</section>
 
 <section id="strength" style="position: relative; overflow: hidden; background: #F5F6F8; padding: 240px 0 128px;">
 <p class="en px" aria-hidden="true" style="position: absolute; left: 0; top: 40px; margin: 0; white-space: nowrap; font-size: 160px; font-weight: 500; line-height: 1; color: transparent; -webkit-text-stroke: 1px #DADBE2; letter-spacing: 0.01em;">TRUE × CONSTANT × SQUARE × TRUE × CONSTANT</p>
@@ -454,7 +479,7 @@ a:hover{color:#111114}
 
 </div>
 </x-dc>
-<script type="text/x-dc" data-dc-script data-props='{"accent":{"editor":"color","default":"#1E3CFF","options":["#1E3CFF","#111114","#0A6B5C"]},"autoplay":{"editor":"boolean","default":true},"$preview":{"width":1440,"height":7001}}'>
+<script type="text/x-dc" data-dc-script data-props='{"accent":{"editor":"color","default":"#1E3CFF","options":["#1E3CFF","#111114","#0A6B5C"]},"autoplay":{"editor":"boolean","default":true},"$preview":{"width":1440,"height":7326}}'>
 class Component extends DCLogic {
   componentDidMount() {
     const rm = typeof window !== 'undefined' && window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -536,6 +561,10 @@ class Component extends DCLogic {
       { date: '2026.08.25', cat: 'コラム', title: '縦型動画広告で押さえたい3つのポイント' },
       { date: '2026.08.04', cat: 'お知らせ', title: '夏季休業期間のお知らせ' }
     ];
+    const pn = [];
+    for (let k = 0; k < 8; k++) pn.push({ n: '0' + (k + 1) });
+    const partnersA = pn.concat(pn).map((l, k) => ({ ...l, dup: k >= 8 ? 'true' : 'false' }));
+    const partnersB = pn.map((l, k) => ({ n: '0' + (((k + 3) % 8) + 1) })).concat(pn.map((l, k) => ({ n: '0' + (((k + 3) % 8) + 1) })));
     const nMax = news.length - 3;
     const ni = Math.min(s.news || 0, nMax);
     return {
@@ -565,6 +594,8 @@ class Component extends DCLogic {
       points,
       services,
       worksLoop,
+      partnersA,
+      partnersB,
       news,
       newsX: (-ni * 408) + 'px',
       newsNum: String(ni + 1).padStart(2, '0'),
